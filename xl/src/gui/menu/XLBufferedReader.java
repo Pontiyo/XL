@@ -8,7 +8,6 @@ import java.util.Map;
 import model.Slot;
 import util.XLException;
 
-//TODO move to another package
 public class XLBufferedReader extends BufferedReader {
     public XLBufferedReader(String name) throws FileNotFoundException {
         super(new FileReader(name));

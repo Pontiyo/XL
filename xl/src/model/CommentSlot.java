@@ -16,8 +16,7 @@ public class CommentSlot implements Slot{
 
 	@Override
 	public String toString(Environment e) {
-		// TODO Auto-generated method stub
-		return null;
+		return comment;
 	}
 
 }

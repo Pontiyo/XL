@@ -12,14 +12,12 @@ public class ExpressionSlot implements Slot{
 
 	@Override
 	public double getValue(Environment e) {
-		// TODO Auto-generated method stub
-		return 0;
+		return expr.value(e);
 	}
 
 	@Override
 	public String toString(Environment e) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.toString();
 	}
 
 }
