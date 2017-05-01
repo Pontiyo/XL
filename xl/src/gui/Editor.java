@@ -9,25 +9,33 @@ import java.util.Observer;
 import javax.swing.JTextField;
 
 import model.Sheet;
+import util.XLException;
 
 public class Editor extends JTextField implements ActionListener, Observer{
 	Sheet sheet;
-	CurrentLabel cl;
+	CurrentSlot cs;
 	
 	
-    public Editor(CurrentLabel cl, Sheet sheet) {
+    public Editor(CurrentSlot cs, Sheet sheet) {
         setBackground(Color.WHITE);
+        this.sheet = sheet;
+        this.cs = cs;
+        cs.addObserver(this);
+        addActionListener(this);
     }
 
 	@Override
 	public void update(Observable arg0, Object arg) {
-		// TODO Auto-generated method stub
-		
+		String address = cs.toString();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg) {
-		// TODO Auto-generated method stub
-		
+		String address = cs.toString();
+		try{
+			sheet.setSlot(address, this.getText());
+		} catch (XLException e){
+			
+		}
 	}
 }

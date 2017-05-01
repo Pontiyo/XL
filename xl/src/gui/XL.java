@@ -17,14 +17,16 @@ import model.Sheet;
 
 public class XL extends JFrame implements Printable {
 	private static final long serialVersionUID = 1L;
+	private CurrentSlot cs;
+	private Sheet sheet = new Sheet();
+	    
 	private static final int ROWS = 10, COLUMNS = 8;
     private XLCounter counter;
-    private StatusLabel statusLabel = new StatusLabel();
+    private StatusLabel statusLabel = new StatusLabel(sheet);
     private XLList xlList;
     
-    private CurrentLabel cl;
-    private Sheet sheet;
-
+    
+ 
     public XL(XL oldXL) {
         this(oldXL.xlList, oldXL.counter);
     }
@@ -35,13 +37,14 @@ public class XL extends JFrame implements Printable {
         this.counter = counter;
         xlList.add(this);
         counter.increment();
+        statusLabel = new StatusLabel(sheet);
         JPanel statusPanel = new StatusPanel(statusLabel);
-        JPanel sheetPanel = new SheetPanel(ROWS, COLUMNS);
-        Editor editor = new Editor(cl, sheet);
+        JPanel sheetPanel = new SheetPanel(ROWS, COLUMNS, cs, sheet);
+        Editor editor = new Editor(cs, sheet);
         add(NORTH, statusPanel);
         add(CENTER, editor);
         add(SOUTH, sheetPanel);
-        setJMenuBar(new XLMenuBar(this, xlList, statusLabel));
+        setJMenuBar(new XLMenuBar(this, xlList, statusLabel,sheet,cs));
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);

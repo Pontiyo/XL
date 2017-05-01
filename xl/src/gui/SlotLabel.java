@@ -1,49 +1,35 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SlotLabel extends ColoredLabel implements Observer,MouseListener{
-    public SlotLabel() {
+import model.Sheet;
+
+public class SlotLabel extends ColoredLabel implements Observer{
+	private String address;
+	private CurrentSlot cs;
+	private Sheet sheet;
+	private Handler h;
+	
+    public SlotLabel(CurrentSlot cs, Sheet sheet) {
         super("                    ", Color.WHITE, RIGHT);
     }
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		String str
 		
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	private class Handler extends MouseAdapter{
 		
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+		cs.set(cs,Color.WHITE);
+		}
+	
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }

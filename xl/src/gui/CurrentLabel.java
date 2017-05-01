@@ -7,14 +7,17 @@ import java.util.Observer;
 import model.Slot;
 
 public class CurrentLabel extends ColoredLabel implements Observer{
-	Slot currentslot;
-    public CurrentLabel() {
+	CurrentSlot cs;
+
+    public CurrentLabel(CurrentSlot cs) {
         super("A1", Color.WHITE);
+        this.cs = cs;
+        cs.addObserver(this);
     }
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		setText(cs.toString());
 		
 	}
 }
