@@ -17,7 +17,7 @@ import model.Sheet;
 
 public class XL extends JFrame implements Printable {
 	private static final long serialVersionUID = 1L;
-	private CurrentSlot cs;
+	private CurrentSlot cs = new CurrentSlot();
 	private Sheet sheet = new Sheet();
 	    
 	private static final int ROWS = 10, COLUMNS = 8;
@@ -38,7 +38,7 @@ public class XL extends JFrame implements Printable {
         xlList.add(this);
         counter.increment();
         statusLabel = new StatusLabel(sheet);
-        JPanel statusPanel = new StatusPanel(statusLabel);
+        JPanel statusPanel = new StatusPanel(statusLabel,cs);
         JPanel sheetPanel = new SheetPanel(ROWS, COLUMNS, cs, sheet);
         Editor editor = new Editor(cs, sheet);
         add(NORTH, statusPanel);

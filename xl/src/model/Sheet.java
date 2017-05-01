@@ -34,6 +34,11 @@ public double value(String address) {
 	return slot.getValue(this);
 }
 
+public String slotString(String address){
+	Slot slot = sheet.get(address);
+	return slot.toString();
+}
+
 public void clearSlot(String address){
 	Slot slot = sheet.get(address);
 	sheet.remove(address);

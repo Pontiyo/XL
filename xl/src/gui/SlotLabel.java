@@ -19,15 +19,15 @@ public class SlotLabel extends ColoredLabel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		String str
-		
+		String str = sheet.slotString(address);
+		this.setText(str);
 	}
 
 	private class Handler extends MouseAdapter{
 		
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-		cs.set(cs,Color.WHITE);
+		cs.setColor(Color.WHITE);
 		}
 	
 	}
