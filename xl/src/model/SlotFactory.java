@@ -25,7 +25,9 @@ public class SlotFactory {
 		Expr expr = null;
 		try{
 		expr = parser.build(input);
-		return new ExpressionSlot(expr);
+		ExpressionSlot es = new ExpressionSlot(expr);
+		es.input = input;
+		return es;
 		} catch (Exception e){}
 		throw new XLException("Input Error");
 	}

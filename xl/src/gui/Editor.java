@@ -27,7 +27,7 @@ public class Editor extends JTextField implements ActionListener, Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg) {
-		String str = sheet.getString(cs.getAddress());
+		String str = sheet.getInput(cs.getAddress());
 		setText(str);
 	}
 

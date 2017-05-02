@@ -5,6 +5,7 @@ import expr.Expr;
 
 public class ExpressionSlot implements Slot{
 	private Expr expr;
+	String input;
 	
 	ExpressionSlot(Expr expr){
 		this.expr = expr;
@@ -19,5 +20,11 @@ public class ExpressionSlot implements Slot{
 	public String toString(Environment e) {
 		return String.valueOf(getValue(e));
 	}
+
+	@Override
+	public String input(Environment e) {
+		return input;
+	}
+	
 
 }

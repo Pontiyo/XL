@@ -2,11 +2,11 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Observable;
 
 import expr.Environment;
-import gui.SlotLabels;
 import gui.menu.XLBufferedReader;
 import gui.menu.XLPrintStream;
 import util.XLException;
@@ -14,7 +14,6 @@ import util.XLException;
 public class Sheet extends Observable implements Environment{
 	SlotFactory factory;
 	Map<String, Slot> sheet;
-	SlotLabels sl;
 
 public Sheet(){
 	 sheet = new HashMap<String, Slot>();
@@ -28,13 +27,42 @@ public Sheet(HashMap<String,Slot> sheet){
 public void setSlot(String address, String input){
 	Slot slot = factory.createSlot(input);
 	if(input.isEmpty()){
-		sheet.remove(address);
+		clearSlot(address);
 	} else {
 	circularCheck(address,slot);
 	sheet.put(address, slot);
 	}
 	notifyObservers();
 	setChanged();
+}
+
+public void clearSlot(String address){
+	Slot slot = sheet.get(address);
+	sheet.remove(address);
+	Iterator itr = sheet.values().iterator();
+		while (itr.hasNext()){
+		try {
+			Slot test = (Slot) itr.next();
+		} catch (XLException e){
+		System.out.println("hej");
+		sheet.put(address, slot);
+		throw new XLException("Circular Error");
+	}
+		}
+	notifyObservers();
+	setChanged();
+}
+
+public void circularCheck(String address, Slot slot){
+	Slot temp = sheet.get(address);
+	sheet.put(address, new ExceptionSlot());
+	try {
+		slot.getValue(this);
+		sheet.put(address, temp);
+	} catch (XLException e){
+		sheet.put(address, temp);
+		throw new XLException("Circular Error");
+	}
 }
 
 @Override
@@ -50,36 +78,22 @@ public String getString(String address){
 	if (sheet.get(address) == null){
 		return "";
 	} 
-	Slot slot = sheet.get(address);
-	return slot.toString(this);
+	return sheet.get(address).toString(this);
 }
 
-public void circularCheck(String address, Slot slot){
-	Slot temp = sheet.get(address);
-	sheet.put(address, new ExceptionSlot());
-	try {
-		slot.getValue(this);
-		sheet.put(address, temp);
-	} catch (XLException e){
-		sheet.put(address, temp);
-		throw new XLException("Circular Error");
-	}
+public String getInput(String address){
+	if (sheet.get(address) == null){
+		return "";
+	} 
+	return sheet.get(address).input(this);
 }
 
-public void clearSlot(String address){
-	//Slot slot = sheet.get(address);
-	sheet.remove(address);
-	notifyObservers();
-	setChanged();
-}
 
 public void clearSheet(){
 	sheet.clear();
 	notifyObservers();
 	setChanged();
 }
-
-
 	
 public void saveToFile(String filename)throws FileNotFoundException{
 	XLPrintStream save = new XLPrintStream(filename);
