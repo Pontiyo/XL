@@ -22,7 +22,7 @@ public class XL extends JFrame implements Printable {
 	    
 	private static final int ROWS = 10, COLUMNS = 8;
     private XLCounter counter;
-    private StatusLabel statusLabel = new StatusLabel(sheet);
+    private StatusLabel statusLabel = new StatusLabel();
     private XLList xlList;
     
     
@@ -37,10 +37,9 @@ public class XL extends JFrame implements Printable {
         this.counter = counter;
         xlList.add(this);
         counter.increment();
-        statusLabel = new StatusLabel(sheet);
         JPanel statusPanel = new StatusPanel(statusLabel,cs);
-        JPanel sheetPanel = new SheetPanel(ROWS, COLUMNS, cs, sheet);
-        Editor editor = new Editor(cs, sheet);
+        JPanel sheetPanel = new SheetPanel(ROWS, COLUMNS, cs, sheet, statusLabel);
+        Editor editor = new Editor(cs, sheet, statusLabel);
         add(NORTH, statusPanel);
         add(CENTER, editor);
         add(SOUTH, sheetPanel);
