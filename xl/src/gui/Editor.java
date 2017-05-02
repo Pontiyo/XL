@@ -14,28 +14,40 @@ import util.XLException;
 public class Editor extends JTextField implements ActionListener, Observer{
 	Sheet sheet;
 	CurrentSlot cs;
+	StatusLabel statL;
 	
-	
-    public Editor(CurrentSlot cs, Sheet sheet) {
+    public Editor(CurrentSlot cs, Sheet sheet,StatusLabel statL) {
         setBackground(Color.WHITE);
         this.sheet = sheet;
         this.cs = cs;
+        this.statL = statL;
         cs.addObserver(this);
         addActionListener(this);
     }
 
 	@Override
 	public void update(Observable arg0, Object arg) {
-		String address = cs.toString();
+		String str = sheet.getString(cs.getAddress());
+		setText(str);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg) {
-		String address = cs.toString();
-		try{
-			sheet.setSlot(address, this.getText());
-		} catch (XLException e){
-			
+		String address = cs.getAddress();
+		if(!this.getText().isEmpty()){
+			try{
+				sheet.setSlot(address, this.getText());
+				cs.notifyObservers();
+			} catch (XLException e){
+				statL.setText(e.getMessage());
+			}
+		} else {
+			try{
+				sheet.setSlot(address, "");
+				cs.notifyObservers();
+			} catch (XLException e){
+				statL.setText(e.getMessage());
+			}
 		}
 	}
 }

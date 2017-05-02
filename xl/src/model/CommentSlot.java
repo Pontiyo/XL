@@ -16,7 +16,7 @@ public class CommentSlot implements Slot{
 
 	@Override
 	public String toString(Environment e) {
-		return comment;
+		return comment.substring(1);
 	}
 
 }

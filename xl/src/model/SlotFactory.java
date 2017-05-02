@@ -1,13 +1,16 @@
 package model;
 
-import java.io.IOException;
 
 import expr.Expr;
 import expr.ExprParser;
+import util.XLException;
 
 public class SlotFactory {
 	
 	public Slot createSlot(String input){
+		if(input.isEmpty()){
+			return null;
+		}
 		if(input.charAt(0) == '#'){
 			return createCommentSlot(input);
 		}
@@ -22,8 +25,9 @@ public class SlotFactory {
 		Expr expr = null;
 		try{
 		expr = parser.build(input);
-		} catch (IOException e){}
 		return new ExpressionSlot(expr);
+		} catch (Exception e){}
+		throw new XLException("Input Error");
 	}
 	
 	private Slot createCommentSlot(String input){

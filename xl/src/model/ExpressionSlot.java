@@ -17,7 +17,7 @@ public class ExpressionSlot implements Slot{
 
 	@Override
 	public String toString(Environment e) {
-		return expr.toString();
+		return String.valueOf(getValue(e));
 	}
 
 }

@@ -11,7 +11,7 @@ import model.Sheet;
 public class SlotLabels extends GridPanel {
     private List<SlotLabel> labelList;
 
-    public SlotLabels(int rows, int cols, CurrentSlot cs, Sheet sheet) {
+    public SlotLabels(int rows, int cols, CurrentSlot cs, Sheet sheet, StatusLabel sl) {
         super(rows + 1, cols);
         labelList = new ArrayList<SlotLabel>(rows * cols);
         for (char ch = 'A'; ch < 'A' + cols; ch++) {
@@ -20,12 +20,14 @@ public class SlotLabels extends GridPanel {
         }
         for (int row = 1; row <= rows; row++) {
             for (char ch = 'A'; ch < 'A' + cols; ch++) {
-                SlotLabel label = new SlotLabel(cs, sheet);
+            	String address = ch + Integer.toString(row);
+                SlotLabel label = new SlotLabel(sl, cs, sheet,address);
                 add(label);
                 labelList.add(label);
             }
         }
         SlotLabel firstLabel = labelList.get(0);
         firstLabel.setBackground(Color.YELLOW);
+        cs.set(firstLabel,sheet);
     }
 }
