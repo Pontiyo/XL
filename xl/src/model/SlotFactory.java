@@ -9,14 +9,15 @@ public class SlotFactory {
 	
 	public Slot createSlot(String input){
 		if(input.charAt(0) == '#'){
-			return createExprSlot(input);
+			return createCommentSlot(input);
 		}
 		else{
-			return createCommentSlot(input);
+			return createExprSlot(input);
 		}
 	}
 	
 	private ExprParser parser = new ExprParser();
+	
 	private Slot createExprSlot(String input){
 		Expr expr = null;
 		try{

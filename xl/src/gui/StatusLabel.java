@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
+import model.Sheet;
+
 public class StatusLabel extends ColoredLabel implements Observer {
-    public StatusLabel() {
+	Sheet sheet;
+    public StatusLabel(Sheet sheet) {
         super("", Color.WHITE);
     }
 

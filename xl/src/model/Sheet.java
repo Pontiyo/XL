@@ -23,21 +23,31 @@ public Sheet(HashMap<String,Slot> sheet){
 }
 
 public void setSlot(String address, String txt){
-	
+	Slot slot = factory.createSlot(txt);
+	sheet.put(address, slot);
+	notifyObservers();
 }
 
 @Override
 public double value(String address) {
-	// TODO Auto-generated method stub
-	return 0;
+	Slot slot = sheet.get(address);
+	return slot.getValue(this);
+}
+
+public String slotString(String address){
+	Slot slot = sheet.get(address);
+	return slot.toString();
 }
 
 public void clearSlot(String address){
-	
+	Slot slot = sheet.get(address);
+	sheet.remove(address);
+	notifyObservers();
 }
 
 public void clearSheet(){
-	
+	sheet.clear();
+	notifyObservers();
 }
 	
 public void saveToFile(String filename)throws FileNotFoundException{
