@@ -15,4 +15,10 @@ public class ExceptionSlot implements Slot{
 		throw new XLException("Circular Exception");
 	}
 
+	@Override
+	public String input(Environment e) {
+		throw new XLException("Circular Exception");
+	}
+	
+
 }

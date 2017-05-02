@@ -18,8 +18,8 @@ public class XLMenuBar extends JMenuBar {
         file.add(new LoadMenuItem(xl, statusLabel));
         file.add(new NewMenuItem(xl));
         file.add(new CloseMenuItem(xl, xlList));
-        edit.add(new ClearMenuItem(sheet));
-        edit.add(new ClearAllMenuItem(sheet));
+        edit.add(new ClearMenuItem(sheet,cs));
+        edit.add(new ClearAllMenuItem(sheet,cs));
         add(file);
         add(edit);
         add(new WindowMenu(xlList));
