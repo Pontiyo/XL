@@ -10,6 +10,6 @@ public class SheetPanel extends BorderPanel {
     	SlotLabels sl = new SlotLabels(rows, columns, cs, sheet, statl);
         add(WEST, new RowLabels(rows));
         add(CENTER, sl);
-        sheet.addSL(sl);
+       // sheet.addSL(sl);
     }
 }

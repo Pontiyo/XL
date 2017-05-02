@@ -8,6 +8,9 @@ import util.XLException;
 public class SlotFactory {
 	
 	public Slot createSlot(String input){
+		if(input.isEmpty()){
+			return null;
+		}
 		if(input.charAt(0) == '#'){
 			return createCommentSlot(input);
 		}

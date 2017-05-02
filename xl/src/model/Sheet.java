@@ -25,9 +25,14 @@ public Sheet(HashMap<String,Slot> sheet){
 	this.sheet = sheet;
 }
 
-public void setSlot(String address, String txt){
-	Slot slot = factory.createSlot(txt);
+public void setSlot(String address, String input){
+	Slot slot = factory.createSlot(input);
+	if(input.isEmpty()){
+		sheet.remove(address);
+	} else {
+	circularCheck(address,slot);
 	sheet.put(address, slot);
+	}
 	notifyObservers();
 	setChanged();
 }
@@ -44,28 +49,37 @@ public double value(String address) {
 public String getString(String address){
 	if (sheet.get(address) == null){
 		return "";
-	} else if (sheet.get(address) instanceof CommentSlot) {
-		Slot slot = sheet.get(address);
-		return slot.toString();
-	}
+	} 
 	Slot slot = sheet.get(address);
-	return String.valueOf(sheet.get(address).getValue(this));
+	return slot.toString(this);
+}
+
+public void circularCheck(String address, Slot slot){
+	Slot temp = sheet.get(address);
+	sheet.put(address, new ExceptionSlot());
+	try {
+		slot.getValue(this);
+		sheet.put(address, temp);
+	} catch (XLException e){
+		sheet.put(address, temp);
+		throw new XLException("Circular Error");
+	}
 }
 
 public void clearSlot(String address){
 	//Slot slot = sheet.get(address);
 	sheet.remove(address);
 	notifyObservers();
+	setChanged();
 }
 
 public void clearSheet(){
 	sheet.clear();
 	notifyObservers();
+	setChanged();
 }
 
-public void addSL(SlotLabels sl){
-	this.sl = sl;
-}
+
 	
 public void saveToFile(String filename)throws FileNotFoundException{
 	XLPrintStream save = new XLPrintStream(filename);

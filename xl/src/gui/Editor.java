@@ -37,6 +37,14 @@ public class Editor extends JTextField implements ActionListener, Observer{
 		if(!this.getText().isEmpty()){
 			try{
 				sheet.setSlot(address, this.getText());
+				cs.notifyObservers();
+			} catch (XLException e){
+				statL.setText(e.getMessage());
+			}
+		} else {
+			try{
+				sheet.setSlot(address, "");
+				cs.notifyObservers();
 			} catch (XLException e){
 				statL.setText(e.getMessage());
 			}
