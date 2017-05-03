@@ -12,12 +12,11 @@ public class XLPrintStream extends PrintStream {
         super(fileName);
     }
 
-    
     public void save(Set<Entry<String, Slot>> set) {
         for (Entry<String, Slot> entry : set) {
             print(entry.getKey());
             print('=');
-            println(entry.getValue());
+            println(entry.getValue().input());
         }
         flush();
         close();

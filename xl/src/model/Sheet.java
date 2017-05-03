@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Observable;
 
 import expr.Environment;
+import gui.CurrentSlot;
+import gui.SlotLabels;
 import gui.menu.XLBufferedReader;
 import gui.menu.XLPrintStream;
 import util.XLException;
@@ -28,29 +30,13 @@ public void setSlot(String address, String input){
 	Slot slot = factory.createSlot(input);
 	if(input.isEmpty()){
 		clearSlot(address);
+	} else if (slot.toString(this) == null){
+		throw new XLException("Empty Slot Error");
 	} else {
 	circularCheck(address,slot);
 	sheet.put(address, slot);
+	
 	}
-	notifyObservers();
-	setChanged();
-}
-
-public void clearSlot(String address){
-	Slot slot = sheet.get(address);
-	sheet.remove(address);
-	Iterator itr = sheet.values().iterator();
-		while (itr.hasNext()){
-		try {
-			Slot test = (Slot) itr.next();
-		} catch (XLException e){
-		System.out.println("hej");
-		sheet.put(address, slot);
-		throw new XLException("Circular Error");
-	}
-		}
-	notifyObservers();
-	setChanged();
 }
 
 public void circularCheck(String address, Slot slot){
@@ -65,11 +51,33 @@ public void circularCheck(String address, Slot slot){
 	}
 }
 
+public void clearSlot(String address){
+	removeCircularCheck(address);
+	sheet.remove(address);
+}
+
+public void removeCircularCheck(String address){
+	Slot slot = sheet.get(address);
+	ExceptionSlot es = new ExceptionSlot();
+	sheet.put(address,es);
+	Iterator itr = sheet.values().iterator();
+		while (itr.hasNext()){
+		try {
+			Slot test = (Slot) itr.next();
+			if(test != es) {
+				test.getValue(this);
+				}
+		} catch (XLException e){
+		sheet.put(address, slot);
+		throw new XLException("Circular Error");
+	}
+		}
+}
 @Override
 public double value(String address) {
 	Slot slot = sheet.get(address);
 	if (slot == null) {
-		throw new XLException("Empty Slot: " + address);
+		throw new XLException("Empty Slot Error");
 	}
 	return slot.getValue(this);
 }
@@ -85,22 +93,30 @@ public String getInput(String address){
 	if (sheet.get(address) == null){
 		return "";
 	} 
-	return sheet.get(address).input(this);
+	return sheet.get(address).input();
 }
 
 
 public void clearSheet(){
 	sheet.clear();
-	notifyObservers();
-	setChanged();
 }
 	
+@Override
+public void notifyObservers() {
+	setChanged();
+	super.notifyObservers();
+}
+
 public void saveToFile(String filename)throws FileNotFoundException{
 	XLPrintStream save = new XLPrintStream(filename);
+	save.save(sheet.entrySet());
 }
 
 public void readFromFile(String filename)throws FileNotFoundException{
 	XLBufferedReader load = new XLBufferedReader(filename);
+	clearSheet();
+	load.load(sheet);
+	notifyObservers();
 }
 
 

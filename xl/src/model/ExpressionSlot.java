@@ -22,7 +22,7 @@ public class ExpressionSlot implements Slot{
 	}
 
 	@Override
-	public String input(Environment e) {
+	public String input() {
 		return input;
 	}
 	

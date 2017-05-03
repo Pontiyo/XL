@@ -7,5 +7,5 @@ public double getValue(Environment e);
 
 public String toString(Environment e);
 
-public String input(Environment e);
+public String input();
 }

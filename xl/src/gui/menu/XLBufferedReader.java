@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Map;
 
+import gui.SlotLabels;
 import model.Slot;
+import model.SlotFactory;
 import util.XLException;
 
 public class XLBufferedReader extends BufferedReader {
@@ -14,12 +16,14 @@ public class XLBufferedReader extends BufferedReader {
     }
 
     
-    public void load(Map<String, Slot> map) {
+    public void load(Map<String, Slot> sheet) {
+    	SlotFactory fac = new SlotFactory();
         try {
             while (ready()) {
-                String string = readLine();
-                int i = string.indexOf('=');
-                // TODO
+                String string[] = readLine().split("=");
+                String address = string[0];
+                Slot slot = fac.createSlot(string[1]);  
+                sheet.put(address, slot);
             }
         } catch (Exception e) {
             throw new XLException(e.getMessage());
