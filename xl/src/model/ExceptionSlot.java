@@ -16,7 +16,7 @@ public class ExceptionSlot implements Slot{
 	}
 
 	@Override
-	public String input(Environment e) {
+	public String input() {
 		throw new XLException("Circular Exception");
 	}
 	

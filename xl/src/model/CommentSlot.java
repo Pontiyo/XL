@@ -21,7 +21,7 @@ public class CommentSlot implements Slot{
 	}
 
 	@Override
-	public String input(Environment e) {
+	public String input() {
 		return comment;
 	}
 	

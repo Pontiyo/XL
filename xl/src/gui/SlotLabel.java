@@ -35,7 +35,6 @@ public class SlotLabel extends ColoredLabel implements Observer{
 	}
 	
 	private class Handler extends MouseAdapter{
-		
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 		cs.setColor(Color.WHITE);
